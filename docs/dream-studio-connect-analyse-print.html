@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dream Studio Connect — Analyse Complète</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --green: #00C853;
+    --dark: #0D1117;
+    --accent: #FFD166;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --light: #f9fafb;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+    background: #fff;
+    padding: 0;
+  }
+
+  @media print {
+    body { font-size: 12px; }
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+    h2 { page-break-after: avoid; }
+  }
+
+  /* COVER PAGE */
+  .cover {
+    background: var(--dark);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 40px;
+    page-break-after: always;
+  }
+  .cover-badge {
+    background: var(--green);
+    color: var(--dark);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 32px;
+  }
+  .cover h1 {
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .cover h1 span { color: var(--green); }
+  .cover .subtitle {
+    font-size: 20px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 48px;
+    max-width: 500px;
+  }
+  .cover-tagline {
+    font-size: 18px;
+    font-style: italic;
+    color: var(--accent);
+    border: 1px solid rgba(255,209,102,0.3);
+    padding: 16px 32px;
+    border-radius: 8px;
+    margin-bottom: 60px;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 48px;
+    color: rgba(255,255,255,0.5);
+    font-size: 13px;
+  }
+  .cover-meta div { display: flex; flex-direction: column; gap: 4px; }
+  .cover-meta strong { color: rgba(255,255,255,0.9); font-weight: 600; }
+
+  /* CONTENT */
+  .content { max-width: 820px; margin: 0 auto; padding: 60px 48px; }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 52px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--green);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2:first-child { margin-top: 0; }
+  h2 .num {
+    background: var(--green);
+    color: var(--dark);
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark);
+    margin: 28px 0 12px;
+  }
+
+  p { margin-bottom: 14px; color: #374151; }
+
+  /* INSIGHT BOX */
+  .insight {
+    background: #f0fdf4;
+    border-left: 4px solid var(--green);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 20px 0;
+    font-style: italic;
+    color: #166534;
+    font-weight: 500;
+  }
+
+  /* QUOTE */
+  .tagline-box {
+    background: var(--dark);
+    color: white;
+    padding: 20px 28px;
+    border-radius: 10px;
+    margin: 20px 0;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+  .tagline-box span { color: var(--green); }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 13px;
+  }
+  th {
+    background: var(--dark);
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: var(--light); }
+  tr:hover td { background: #f0fdf4; }
+
+  /* PILLARS */
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .pillar {
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--green);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .pillar-num {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--green);
+    margin-bottom: 6px;
+  }
+  .pillar h4 { font-size: 14px; font-weight: 700; margin-bottom: 8px; color: var(--dark); }
+  .pillar p { font-size: 13px; color: var(--muted); margin: 0; }
+
+  /* ECOSYSTEM */
+  .ecosystem {
+    background: var(--dark);
+    color: white;
+    padding: 28px;
+    border-radius: 10px;
+    margin: 20px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre;
+  }
+
+  /* PRICING */
+  .pricing {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .price-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+  .price-card.featured {
+    border-color: var(--green);
+    border-width: 2px;
+    background: #f0fdf4;
+  }
+  .price-plan { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .price-amount { font-size: 24px; font-weight: 800; color: var(--dark); margin-bottom: 4px; }
+  .price-period { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  .price-features { font-size: 12px; color: #374151; text-align: left; line-height: 1.8; }
+
+  /* ROADMAP */
+  .roadmap { margin: 20px 0; }
+  .phase {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .phase:last-child { border-bottom: none; }
+  .phase-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .phase-content h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .phase-content p { font-size: 13px; color: var(--muted); margin: 0; }
+
+  /* RISKS */
+  .risk-high { color: #dc2626; font-weight: 600; }
+  .risk-medium { color: #d97706; font-weight: 600; }
+  .risk-low { color: #16a34a; font-weight: 600; }
+
+  /* CONCLUSION */
+  .conclusion {
+    background: var(--dark);
+    color: white;
+    padding: 40px;
+    border-radius: 12px;
+    margin: 40px 0;
+  }
+  .conclusion h3 { color: var(--green); margin-top: 0; font-size: 18px; margin-bottom: 20px; }
+  .decisions { display: flex; flex-direction: column; gap: 12px; }
+  .decision {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: rgba(255,255,255,0.05);
+    padding: 14px 18px;
+    border-radius: 8px;
+  }
+  .decision-num {
+    background: var(--green);
+    color: var(--dark);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .decision-text { font-size: 14px; line-height: 1.5; }
+  .decision-text strong { color: var(--green); }
+
+  /* PRINT BUTTON */
+  .print-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--green);
+    color: var(--dark);
+    border: none;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,200,83,0.3);
+    z-index: 100;
+  }
+  .print-btn:hover { transform: translateY(-2px); }
+
+  /* TOC */
+  .toc {
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px 32px;
+    margin-bottom: 40px;
+  }
+  .toc h3 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 16px; }
+  .toc-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .toc-list li { font-size: 13px; }
+  .toc-list a { color: var(--dark); text-decoration: none; display: flex; gap: 8px; align-items: center; }
+  .toc-list a:hover { color: var(--green); }
+  .toc-num { color: var(--green); font-weight: 700; font-size: 12px; }
+
+  ul, ol { padding-left: 20px; margin: 12px 0; }
+  li { margin-bottom: 6px; color: #374151; }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .badge-p0 { background: #fef2f2; color: #dc2626; }
+  .badge-p1 { background: #fef3c7; color: #d97706; }
+  .badge-p2 { background: #f0fdf4; color: #16a34a; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .stat {
+    background: var(--dark);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .stat-num { font-size: 28px; font-weight: 800; color: var(--green); }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 4px; }
+
+  footer {
+    text-align: center;
+    padding: 40px;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<!-- PRINT BUTTON -->
+<button class="print-btn no-print" onclick="window.print()">⬇ Enregistrer en PDF</button>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-badge">Document d'Analyse — Version 1.0</div>
+  <h1>DREAM STUDIO<br/><span>CONNECT</span></h1>
+  <p class="subtitle">Analyse Complète du Projet — Plateforme de Mise en Relation Footballeurs & Agents</p>
+  <div class="cover-tagline">"Ton talent existe. On le rend visible."</div>
+  <div class="cover-meta">
+    <div><span>Auteur</span><strong>falcom</strong></div>
+    <div><span>Date</span><strong>12 Mars 2026</strong></div>
+    <div><span>Version</span><strong>1.0</strong></div>
+    <div><span>Statut</span><strong>Validation terrain</strong></div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- TOC -->
+  <div class="toc">
+    <h3>Table des matières</h3>
+    <ul class="toc-list">
+      <li><a href="#vision"><span class="toc-num">01</span> Vision & Mission</a></li>
+      <li><a href="#probleme"><span class="toc-num">02</span> Problème résolu</a></li>
+      <li><a href="#cible"><span class="toc-num">03</span> Public cible</a></li>
+      <li><a href="#piliers"><span class="toc-num">04</span> Les 4 Piliers fondateurs</a></li>
+      <li><a href="#fonctionnalites"><span class="toc-num">05</span> Fonctionnalités clés</a></li>
+      <li><a href="#ecosysteme"><span class="toc-num">06</span> Écosystème & Acteurs</a></li>
+      <li><a href="#business"><span class="toc-num">07</span> Modèle économique</a></li>
+      <li><a href="#gtm"><span class="toc-num">08</span> Stratégie Go-to-Market</a></li>
+      <li><a href="#tech"><span class="toc-num">09</span> Contraintes techniques</a></li>
+      <li><a href="#avantages"><span class="toc-num">10</span> Avantages concurrentiels</a></li>
+      <li><a href="#risques"><span class="toc-num">11</span> Risques & Mitigation</a></li>
+      <li><a href="#roadmap"><span class="toc-num">12</span> Roadmap</a></li>
+    </ul>
+  </div>
+
+  <!-- 1. VISION -->
+  <h2 id="vision"><span class="num">01</span> Vision & Mission</h2>
+
+  <h3>Vision</h3>
+  <p>Devenir <strong>la plateforme de référence du football amateur et semi-professionnel en Afrique Centrale</strong>, en commençant par le Cameroun — en rendant chaque talent invisible, visible.</p>
+
+  <h3>Mission</h3>
+  <p><strong>Dream Studio Connect</strong> connecte les footballeurs camerounais sans réseau avec les agents et recruteurs locaux, en leur offrant une présence numérique permanente, crédible et accessible depuis un téléphone d'entrée de gamme.</p>
+
+  <div class="tagline-box">"Ton talent existe. <span>On le rend visible.</span>"</div>
+
+  <h3>Positionnement</h3>
+  <p>Dream Studio Connect n'est pas une simple application — c'est une <strong>institution du football local camerounais</strong> qui organise, certifie et digitalise l'écosystème du talent footballistique.</p>
+
+  <!-- 2. PROBLÈME -->
+  <h2 id="probleme" class="page-break"><span class="num">02</span> Problème résolu</h2>
+
+  <div class="insight">Le Cameroun regorge de talents. Ce n'est pas un problème de talent — c'est un problème de <strong>visibilité</strong>.</div>
+
+  <h3>Le système actuel est brisé</h3>
+  <table>
+    <tr><th>Acteur</th><th>Problème actuel</th></tr>
+    <tr><td><strong>Joueur</strong></td><td>Inconnu hors de son quartier malgré son niveau</td></tr>
+    <tr><td><strong>Agent</strong></td><td>Coûts de déplacement élevés pour peu de résultats</td></tr>
+    <tr><td><strong>Talent rural</strong></td><td>Totalement invisible depuis Maroua ou Ngaoundéré</td></tr>
+    <tr><td><strong>Coach</strong></td><td>Aucun outil pour recommander formellement ses joueurs</td></tr>
+    <tr><td><strong>Parent</strong></td><td>Méfiance vis-à-vis des agents non traçables</td></tr>
+  </table>
+
+  <h3>Les 4 manques fondamentaux</h3>
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-num">01</div>
+      <h4>Exister numériquement</h4>
+      <p>Aucun endroit où être footballeur en dehors du terrain physique</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">02</div>
+      <h4>Circuler au-delà</h4>
+      <p>Une vidéo WhatsApp disparaît en 24h et reste dans le même cercle</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">03</div>
+      <h4>Être témoigné</h4>
+      <p>Pas de recommandation crédible au-delà du bouche à oreille</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">04</div>
+      <h4>Être trouvable</h4>
+      <p>Un agent ne peut pas chercher "ailier gauche, 19 ans, région Ouest"</p>
+    </div>
+  </div>
+
+  <!-- 3. PUBLIC CIBLE -->
+  <h2 id="cible"><span class="num">03</span> Public cible</h2>
+
+  <h3>Utilisateurs primaires</h3>
+  <table>
+    <tr><th>Profil</th><th>Description</th><th>Motivation principale</th></tr>
+    <tr>
+      <td><strong>🏃 Joueurs</strong></td>
+      <td>Amateurs/semi-pros, 15-27 ans, Android bas de gamme, WhatsApp, 2G/3G</td>
+      <td>Être vu, avoir une chance, progresser</td>
+    </tr>
+    <tr>
+      <td><strong>🤝 Agents locaux</strong></td>
+      <td>Agents camerounais, certifiés ou non FIFA, Afrique Centrale</td>
+      <td>Réduire coûts de déplacement, trouver talents facilement</td>
+    </tr>
+  </table>
+
+  <h3>Expansion géographique</h3>
+  <div class="roadmap">
+    <div class="phase">
+      <div class="phase-dot">P1</div>
+      <div class="phase-content"><h4>Yaoundé + Douala</h4><p>Densité de joueurs et d'agents — lancement concentré</p></div>
+    </div>
+    <div class="phase">
+      <div class="phase-dot">P2</div>
+      <div class="phase-content"><h4>Toutes régions Cameroun</h4><p>Réseau de scouts citoyens dans chaque chef-lieu</p></div>
+    </div>
+    <div class="phase">
+      <div class="phase-dot">P3</div>
+      <div class="phase-content"><h4>Afrique Centrale</h4><p>Congo, Gabon, Tchad — mêmes réalités terrain</p></div>
+    </div>
+    <div class="phase">
+      <div class="phase-dot">P4</div>
+      <div class="phase-content"><h4>Afrique de l'Ouest + Europe</h4><p>Diaspora camerounaise, agents européens spécialisés Afrique</p></div>
+    </div>
+  </div>
+
+  <!-- 4. PILIERS -->
+  <h2 id="piliers" class="page-break"><span class="num">04</span> Les 4 Piliers fondateurs</h2>
+
+  <table>
+    <tr><th>Manque</th><th>Pilier</th><th>Solution</th></tr>
+    <tr><td>Exister numériquement</td><td><strong>Le Profil Permanent</strong></td><td>Passeport Talent qui ne disparaît jamais, s'enrichit dans le temps</td></tr>
+    <tr><td>Circuler au-delà</td><td><strong>La Diffusion Virale</strong></td><td>Lien WhatsApp partageable — utilise WhatsApp comme moteur de diffusion</td></tr>
+    <tr><td>Être témoigné</td><td><strong>La Validation Communautaire</strong></td><td>Validations de coaches/arbitres/pairs — bouche à oreille numérisé</td></tr>
+    <tr><td>Être trouvable</td><td><strong>Le Moteur de Découverte</strong></td><td>Recherche filtrée par poste, âge, région — impossible sur WhatsApp</td></tr>
+  </table>
+
+  <!-- 5. FONCTIONNALITÉS -->
+  <h2 id="fonctionnalites"><span class="num">05</span> Fonctionnalités clés</h2>
+
+  <h3>Espace Joueur</h3>
+  <table>
+    <tr><th>Fonctionnalité</th><th>Description</th><th>Priorité</th></tr>
+    <tr><td><strong>Onboarding Express</strong></td><td>Création de profil complet en &lt; 5 minutes</td><td><span class="badge badge-p0">MVP</span></td></tr>
+    <tr><td><strong>Passeport Talent</strong></td><td>Poste, âge, région, club, stats, vidéos</td><td><span class="badge badge-p0">MVP</span></td></tr>
+    <tr><td><strong>Upload Vidéo</strong></td><td>Clips matchs, compressés automatiquement</td><td><span class="badge badge-p0">MVP</span></td></tr>
+    <tr><td><strong>Mode hors-ligne</strong></td><td>Saisie sans connexion, sync automatique</td><td><span class="badge badge-p1">V1.0</span></td></tr>
+    <tr><td><strong>Validations reçues</strong></td><td>Badges de confiance de coaches et pairs</td><td><span class="badge badge-p1">V1.0</span></td></tr>
+    <tr><td><strong>Lien de partage</strong></td><td>URL unique partageable sur WhatsApp</td><td><span class="badge badge-p1">V1.0</span></td></tr>
+    <tr><td><strong>Messagerie agent</strong></td><td>Canal de contact sécurisé</td><td><span class="badge badge-p2">V2.0</span></td></tr>
+  </table>
+
+  <h3>Espace Agent</h3>
+  <table>
+    <tr><th>Fonctionnalité</th><th>Description</th><th>Priorité</th></tr>
+    <tr><td><strong>Moteur de recherche</strong></td><td>Filtres : poste, âge, région, disponibilité</td><td><span class="badge badge-p0">MVP</span></td></tr>
+    <tr><td><strong>Alertes personnalisées</strong></td><td>Notifications sur nouveaux profils selon critères</td><td><span class="badge badge-p0">MVP</span></td></tr>
+    <tr><td><strong>Carnet de suivi</strong></td><td>Favoris, notes privées, suivi longitudinal</td><td><span class="badge badge-p1">V1.0</span></td></tr>
+    <tr><td><strong>Dashboard Analytics</strong></td><td>Vue d'ensemble des talents par région</td><td><span class="badge badge-p2">V2.0</span></td></tr>
+    <tr><td><strong>Export PDF</strong></td><td>Fiche joueur exportable pour clubs</td><td><span class="badge badge-p2">V2.0</span></td></tr>
+  </table>
+
+  <!-- 6. ÉCOSYSTÈME -->
+  <h2 id="ecosysteme" class="page-break"><span class="num">06</span> Écosystème & Acteurs</h2>
+
+  <p>Dream Studio Connect n'est pas qu'une application — c'est un <strong>écosystème coordonné</strong> dont falcom est le chef d'orchestre.</p>
+
+  <div class="ecosystem">               ┌─────────────────────┐
+               │   DREAM STUDIO      │
+               │      CONNECT        │
+               │   (Chef d'orchestre)│
+               └──────────┬──────────┘
+                          │
+      ┌───────────────────┼───────────────────┐
+      │                   │                   │
+┌─────▼──────┐    ┌───────▼──────┐    ┌──────▼──────┐
+│  TOURNOIS  │    │   SCOUTS     │    │   AGENTS    │
+│  organisés │    │  CITOYENS    │    │   locaux    │
+│  par DSC   │    │  formés DSC  │    │  certifiés  │
+└─────┬──────┘    └──────┬───────┘    └──────┬──────┘
+      │                  │                   │
+      └──────────────────▼───────────────────┘
+                    ┌────▼────┐
+                    │JOUEURS  │
+                    │profils  │
+                    └─────────┘</div>
+
+  <table>
+    <tr><th>Acteur</th><th>Rôle</th><th>Motivation</th></tr>
+    <tr><td><strong>DSC (falcom)</strong></td><td>Organise tournois, forme scouts, certifie agents, garantit la confiance</td><td>Revenus plateforme + impact social</td></tr>
+    <tr><td><strong>Scouts Citoyens</strong></td><td>Filment les matchs de quartier, taguent les joueurs</td><td>Badge certifié + commission si joueur recruté</td></tr>
+    <tr><td><strong>Agents</strong></td><td>Utilisateurs payants, accèdent aux talents filtrés</td><td>Économisent temps et argent de déplacement</td></tr>
+    <tr><td><strong>Joueurs</strong></td><td>Créent et enrichissent leur Passeport Talent</td><td>Visibilité + opportunité de carrière</td></tr>
+    <tr><td><strong>Coaches</strong></td><td>Valident les profils des joueurs qu'ils connaissent</td><td>Valorisation de leur rôle, prestige</td></tr>
+  </table>
+
+  <!-- 7. BUSINESS MODEL -->
+  <h2 id="business"><span class="num">07</span> Modèle économique</h2>
+
+  <div class="insight">Gratuit pour les joueurs. Payant pour les agents. Le joueur n'a pas les moyens — l'agent gagne de l'argent grâce aux transferts.</div>
+
+  <div class="pricing">
+    <div class="price-card">
+      <div class="price-plan">Starter</div>
+      <div class="price-amount">Gratuit</div>
+      <div class="price-period">Pour toujours</div>
+      <div class="price-features">
+        ✓ Profil de base<br/>
+        ✓ 1 vidéo<br/>
+        ✓ Apparaît dans les recherches<br/>
+        — Validations illimitées<br/>
+        — Mode hors-ligne
+      </div>
+    </div>
+    <div class="price-card featured">
+      <div class="price-plan">⭐ Agent Basic</div>
+      <div class="price-amount">10 000</div>
+      <div class="price-period">FCFA / mois</div>
+      <div class="price-features">
+        ✓ Recherche filtrée<br/>
+        ✓ Alertes personnalisées<br/>
+        ✓ 20 contacts/mois<br/>
+        ✓ Carnet de suivi<br/>
+        — Dashboard analytics
+      </div>
+    </div>
+    <div class="price-card">
+      <div class="price-plan">Agent Pro</div>
+      <div class="price-amount">25 000</div>
+      <div class="price-period">FCFA / mois</div>
+      <div class="price-features">
+        ✓ Tout illimité<br/>
+        ✓ Dashboard analytics<br/>
+        ✓ Export PDF<br/>
+        ✓ Support dédié<br/>
+        ✓ Accès prioritaire
+      </div>
+    </div>
+  </div>
+
+  <h3>Revenus additionnels</h3>
+  <table>
+    <tr><th>Source</th><th>Description</th><th>Potentiel</th></tr>
+    <tr><td><strong>Commission transfert</strong></td><td>% prélevé sur contrats finalisés via la plateforme</td><td>Élevé (long terme)</td></tr>
+    <tr><td><strong>Tournois sponsorisés</strong></td><td>Marques locales (opérateurs télécom, équipementiers)</td><td>Moyen</td></tr>
+    <tr><td><strong>Pro Joueur</strong></td><td>2 000 FCFA/mois — profil complet + badge vérifié</td><td>Faible (volume)</td></tr>
+    <tr><td><strong>Formation scouts</strong></td><td>Sessions payantes de formation de scouts citoyens</td><td>Faible</td></tr>
+    <tr><td><strong>Données anonymisées</strong></td><td>Rapports tendances talent local (fédérations, clubs)</td><td>Moyen (long terme)</td></tr>
+  </table>
+
+  <!-- 8. GTM -->
+  <h2 id="gtm" class="page-break"><span class="num">08</span> Stratégie Go-to-Market</h2>
+
+  <div class="insight">Principe : Local d'abord → Régional → Continental. Le tournoi physique est le canal d'acquisition central.</div>
+
+  <h3>Le cycle d'acquisition via tournois</h3>
+  <div class="ecosystem">  Tournoi DSC organisé
+          ↓
+  Joueurs participent
+          ↓
+  Scout Citoyen filme & tague
+          ↓
+  Lien WhatsApp envoyé aux joueurs
+          ↓
+  Joueur crée son profil en 5 min
+          ↓
+  Agent reçoit notification post-tournoi
+          ↓
+  Agent contacte joueur → Conversion</div>
+
+  <h3>Phases de lancement</h3>
+  <table>
+    <tr><th>Phase</th><th>Période</th><th>Objectif</th><th>Actions clés</th></tr>
+    <tr><td><strong>Phase 0 — Validation</strong></td><td>Mois 0-3</td><td>Valider les hypothèses</td><td>Interviews terrain, recrutement scouts pilotes, tournoi test</td></tr>
+    <tr><td><strong>Phase 1 — Lancement</strong></td><td>Mois 3-9</td><td>500 joueurs / 30 agents</td><td>Tournois Yaoundé+Douala, WhatsApp, bouche à oreille</td></tr>
+    <tr><td><strong>Phase 2 — Expansion Cameroun</strong></td><td>Mois 9-18</td><td>3 000 joueurs / 150 agents</td><td>Scouts dans toutes régions, partenariats fédérations</td></tr>
+    <tr><td><strong>Phase 3 — Afrique Centrale</strong></td><td>Mois 18-36</td><td>10 000+ joueurs</td><td>Gabon, Congo, Côte d'Ivoire</td></tr>
+  </table>
+
+  <!-- 9. TECH -->
+  <h2 id="tech"><span class="num">09</span> Contraintes techniques</h2>
+
+  <table>
+    <tr><th>Contrainte</th><th>Réalité terrain</th><th>Solution technique</th></tr>
+    <tr><td><strong>Téléphone</strong></td><td>Android bas de gamme</td><td>PWA légère &lt; 15MB</td></tr>
+    <tr><td><strong>Connexion</strong></td><td>2G/3G instable</td><td>Mode hors-ligne + sync</td></tr>
+    <tr><td><strong>Vidéo</strong></td><td>Fichiers lourds</td><td>Compression auto côté serveur</td></tr>
+    <tr><td><strong>Maîtrise digitale</strong></td><td>Variable</td><td>UX ultra-simple, 3 clics max</td></tr>
+    <tr><td><strong>Langue</strong></td><td>Français + langues locales</td><td>Interface multilingue</td></tr>
+    <tr><td><strong>Latence</strong></td><td>Serveurs distants lents</td><td>CDN Afrique (AWS Lagos)</td></tr>
+  </table>
+
+  <h3>Stack technologique recommandé</h3>
+  <table>
+    <tr><th>Couche</th><th>Technologie</th><th>Pourquoi</th></tr>
+    <tr><td>Frontend</td><td>React PWA ou Vue.js</td><td>Installable sans Play Store, fonctionne hors-ligne</td></tr>
+    <tr><td>Backend</td><td>Laravel (PHP) ou Node.js</td><td>Écosystème mature, développeurs disponibles au Cameroun</td></tr>
+    <tr><td>Base de données</td><td>PostgreSQL + PostGIS</td><td>Recherche géographique par région</td></tr>
+    <tr><td>Vidéo</td><td>Cloudinary</td><td>Compression + CDN Afrique</td></tr>
+    <tr><td>Notifications</td><td>WhatsApp Business API</td><td>Canal déjà utilisé par tous les utilisateurs</td></tr>
+    <tr><td>Hébergement</td><td>VPS Cameroun / AWS Lagos</td><td>Faible latence pour les utilisateurs locaux</td></tr>
+  </table>
+
+  <!-- 10. AVANTAGES -->
+  <h2 id="avantages" class="page-break"><span class="num">10</span> Avantages concurrentiels</h2>
+
+  <h3>Vs WhatsApp (concurrent indirect principal)</h3>
+  <table>
+    <tr><th>WhatsApp</th><th>Dream Studio Connect</th></tr>
+    <tr><td>Messages éphémères</td><td>Profils permanents et enrichissables</td></tr>
+    <tr><td>Aucune recherche structurée</td><td>Moteur de recherche avancé par critères</td></tr>
+    <tr><td>Crédibilité non vérifiable</td><td>Validations et badges certifiés</td></tr>
+    <tr><td>Limité au réseau existant</td><td>Connexion avec inconnus pertinents</td></tr>
+    <tr><td>Aucune donnée structurée</td><td>Base de données organisée et exportable</td></tr>
+  </table>
+
+  <h3>Avantages défendables à long terme</h3>
+  <ol>
+    <li><strong>First mover</strong> — Premier sur le marché camerounais structuré</li>
+    <li><strong>Réseau de tournois physiques</strong> — Actif difficile à copier rapidement</li>
+    <li><strong>Confiance locale</strong> — Marque camerounaise pour les Camerounais</li>
+    <li><strong>Écosystème scout citoyen</strong> — Long à construire, impossible à répliquer vite</li>
+    <li><strong>Données propriétaires</strong> — Base de talent local = barrière à l'entrée long terme</li>
+  </ol>
+
+  <!-- 11. RISQUES -->
+  <h2 id="risques"><span class="num">11</span> Risques & Mitigation</h2>
+
+  <table>
+    <tr><th>Risque</th><th>Probabilité</th><th>Mitigation</th></tr>
+    <tr><td><strong>Faible adoption joueurs</strong></td><td><span class="risk-medium">Moyen</span></td><td>Onboarding via tournois physiques, WhatsApp, bouche à oreille</td></tr>
+    <tr><td><strong>Agents non convaincus</strong></td><td><span class="risk-medium">Moyen</span></td><td>1 mois gratuit, démonstration ROI concret</td></tr>
+    <tr><td><strong>Faux profils / abus</strong></td><td><span class="risk-medium">Moyen</span></td><td>Validation communautaire, badge certifié DSC, modération</td></tr>
+    <tr><td><strong>Connectivité insuffisante</strong></td><td><span class="risk-high">Élevé</span></td><td>Mode hors-ligne, PWA légère, compression vidéo</td></tr>
+    <tr><td><strong>Méfiance des parents</strong></td><td><span class="risk-high">Élevé</span></td><td>Transparence totale, contrats traçables, partenaires certifiés</td></tr>
+    <tr><td><strong>Copie du concept</strong></td><td><span class="risk-low">Faible</span></td><td>Avance terrain + réseau scouts = barrière à l'entrée réelle</td></tr>
+  </table>
+
+  <!-- 12. ROADMAP -->
+  <h2 id="roadmap" class="page-break"><span class="num">12</span> Roadmap</h2>
+
+  <table>
+    <tr><th>Version</th><th>Période</th><th>Fonctionnalités</th></tr>
+    <tr>
+      <td><strong>MVP</strong></td>
+      <td>Mois 1-3</td>
+      <td>Profil joueur basique, moteur de recherche simple, espace agent, lien WhatsApp partageable, onboarding &lt; 5 min</td>
+    </tr>
+    <tr>
+      <td><strong>V1.0</strong></td>
+      <td>Mois 3-9</td>
+      <td>Validation communautaire, alertes agents, mode hors-ligne, compression vidéo auto, page tournoi, scout citoyen</td>
+    </tr>
+    <tr>
+      <td><strong>V2.0</strong></td>
+      <td>Mois 9-18</td>
+      <td>Dashboard analytics, score matching, export PDF, app Android native, multilingue, gestion portefeuille agent</td>
+    </tr>
+    <tr>
+      <td><strong>V3.0</strong></td>
+      <td>Mois 18-36</td>
+      <td>Expansion Afrique Centrale, API fédérations, IA sur profils, contrat numérique, certification agents</td>
+    </tr>
+  </table>
+
+  <!-- CONCLUSION -->
+  <div class="conclusion">
+    <h3>Les 5 décisions clés à prendre maintenant</h3>
+    <div class="decisions">
+      <div class="decision">
+        <div class="decision-num">1</div>
+        <div class="decision-text"><strong>Valider</strong> — Mener les interviews terrain (10 joueurs + 5 agents minimum) avant de coder une seule ligne</div>
+      </div>
+      <div class="decision">
+        <div class="decision-num">2</div>
+        <div class="decision-text"><strong>Nommer</strong> — Confirmer "Dream Studio Connect" comme nom final ou explorer d'autres options</div>
+      </div>
+      <div class="decision">
+        <div class="decision-num">3</div>
+        <div class="decision-text"><strong>Prioriser</strong> — Choisir Yaoundé OU Douala comme unique ville de lancement du MVP</div>
+      </div>
+      <div class="decision">
+        <div class="decision-num">4</div>
+        <div class="decision-text"><strong>Recruter</strong> — Identifier 3 scouts citoyens pilotes dès maintenant dans la ville choisie</div>
+      </div>
+      <div class="decision">
+        <div class="decision-num">5</div>
+        <div class="decision-text"><strong>Financer</strong> — Définir le budget MVP et les sources de financement initiales</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p><strong>DREAM STUDIO CONNECT</strong> — Document d'Analyse v1.0 — 12 Mars 2026</p>
+  <p style="margin-top:8px">Généré lors d'une session de brainstorming · falcom × Claude Code</p>
+</footer>
+
+</body>
+</html>
