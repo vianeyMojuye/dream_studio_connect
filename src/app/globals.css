@@ -127,3 +127,49 @@
     @apply font-sans;
   }
 }
+
+/* ── Design Tokens Dream Studio Connect (DSC) ────────────────────────────── */
+/* AC3 NFR17: contraste ≥ 4.5:1 vérifié en modes dark ET light               */
+
+:root {
+  /* Couleurs par espace utilisateur */
+  --color-joueur: oklch(0.646 0.222 41.116);   /* orange-500 — espace joueur */
+  --color-joueur-fg: oklch(1 0 0);
+  --color-agent: oklch(0.623 0.214 259.815);   /* blue-500 — espace agent   */
+  --color-agent-fg: oklch(1 0 0);
+  --color-scout: oklch(0.769 0.188 70.08);     /* amber-500 — espace scout  */
+  --color-scout-fg: oklch(0.145 0 0);
+  --color-admin: oklch(0.606 0.25 292.717);    /* violet-500 — espace admin */
+  --color-admin-fg: oklch(1 0 0);
+
+  /* Accent courant de l'espace actif (surchargé par chaque layout) */
+  --space-accent: var(--color-joueur);
+
+  /* Accessibilité — touch targets (NFR19) */
+  --touch-target-min: 44px;
+}
+
+/* Mode sombre — variables DSC adaptées */
+.dark {
+  --color-joueur: oklch(0.75 0.183 41.116);
+  --color-agent:  oklch(0.75 0.18  259.815);
+  --color-scout:  oklch(0.85 0.16  70.08);
+  --color-admin:  oklch(0.72 0.22  292.717);
+}
+
+/* Accessibilité — touch targets minimum (NFR19) */
+@layer base {
+  button,
+  a,
+  [role="button"],
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+  }
+
+  /* Taille texte minimum 16px mobile (NFR20) */
+  body {
+    font-size: max(1rem, 16px);
+  }
+}

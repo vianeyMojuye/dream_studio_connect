@@ -1,0 +1,28 @@
+{
+  "app": {
+    "name": "Dream Studio Connect",
+    "tagline": "The African football talent platform"
+  },
+  "nav": {
+    "home": "Home",
+    "login": "Sign in",
+    "register": "Sign up"
+  },
+  "errors": {
+    "generic": "An error occurred. Please try again.",
+    "unauthorized": "Unauthorized access.",
+    "notFound": "Page not found.",
+    "upload": "Upload failed. Please try again.",
+    "invalidCredentials": "Invalid email or password."
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "back": "Back",
+    "next": "Next",
+    "share": "Share"
+  }
+}

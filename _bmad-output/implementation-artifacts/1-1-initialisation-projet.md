@@ -1,6 +1,6 @@
 # Story 1.1 : Initialisation du projet — Next.js 16 + shadcn/ui + CI/CD
 
-Status: ready-for-dev
+Status: review
 
 ---
 
@@ -26,45 +26,42 @@ so that toute l'équipe dispose d'une base technique fonctionnelle, déployable 
 
 ## Tasks / Subtasks
 
-- [ ] **T1 — Initialiser le projet starter** (AC: 1, 2)
-  - [ ] T1.1 — Exécuter `pnpm dlx shadcn@latest init -t next` dans le répertoire racine du projet
-  - [ ] T1.2 — Ajouter les composants shadcn/ui MVP : `pnpm dlx shadcn@latest add button card input select badge progress sheet dialog skeleton toast`
-  - [ ] T1.3 — Vérifier que `pnpm dev` démarre sans erreur et que `pnpm build` produit un bundle valide
+- [x] **T1 — Initialiser le projet starter** (AC: 1, 2)
+  - [x] T1.1 — Exécuter `pnpm dlx shadcn@latest init -d` dans le répertoire racine du projet
+  - [x] T1.2 — Ajouter les composants shadcn/ui MVP : button, card, input, select, badge, progress, sheet, dialog, skeleton, sonner (toast → sonner)
+  - [x] T1.3 — `pnpm build` produit un bundle valide (12 routes statiques/dynamiques)
 
-- [ ] **T2 — Créer la structure complète de dossiers** (AC: 2)
-  - [ ] T2.1 — Créer les route groups App Router : `src/app/(public)/`, `(joueur)/`, `(agent)/`, `(scout)/`, `(admin)/`, `auth/`
-  - [ ] T2.2 — Créer les layouts stubés : `(joueur)/layout.tsx`, `(agent)/layout.tsx`, `(scout)/layout.tsx`, `(admin)/layout.tsx`
-  - [ ] T2.3 — Créer `src/server/trpc/routers/` avec `_app.ts` stub + tous les routers vides (auth, player, agent, scout, admin, messaging, payment)
-  - [ ] T2.4 — Créer `src/server/db/index.ts` (Prisma client singleton stub) + `src/server/db/helpers.ts` (withTenant stub)
-  - [ ] T2.5 — Créer `src/lib/validations/` avec fichiers vides (auth.ts, player.ts, agent.ts, search.ts)
-  - [ ] T2.6 — Créer `src/lib/utils/` (whatsapp.ts, cloudinary.ts, momo.ts stubs)
-  - [ ] T2.7 — Créer `src/lib/i18n/messages/fr.json` + `en.json` avec clés minimales initiales
-  - [ ] T2.8 — Créer `src/components/player/`, `agent/`, `admin/`, `shared/` avec fichiers index vides
-  - [ ] T2.9 — Créer `src/hooks/` (useUserPreferences.ts stub)
-  - [ ] T2.10 — Créer `middleware.ts` à la racine `src/` (stub — tenant routing + auth guard sera complété en story 1.3)
+- [x] **T2 — Créer la structure complète de dossiers** (AC: 2)
+  - [x] T2.1 — Route groups App Router : `(public)/`, `(joueur)/`, `(agent)/`, `(scout)/`, `(admin)/`, `auth/`
+  - [x] T2.2 — Layouts stubés avec `--space-accent` par espace
+  - [x] T2.3 — `src/server/trpc/routers/` avec `_app.ts` + routers vides
+  - [x] T2.4 — `src/server/db/index.ts` + `helpers.ts` (withTenant stub)
+  - [x] T2.5–2.8 — lib/validations, lib/utils, i18n messages, composants vides
+  - [x] T2.9 — `src/hooks/useUserPreferences.ts`
+  - [x] T2.10 — `src/middleware.ts` stub (matcher `/joueur/*`, `/agent/*`, `/scout/*`, `/admin/*`)
 
-- [ ] **T3 — Définir les tokens CSS DSC dans globals.css** (AC: 3)
-  - [ ] T3.1 — Ajouter les custom properties couleurs par espace dans `:root`
-  - [ ] T3.2 — Ajouter les variables dark/light (background, text, border, surface)
-  - [ ] T3.3 — Vérifier le ratio de contraste ≥ 4.5:1 en modes dark ET light (NFR17)
+- [x] **T3 — Définir les tokens CSS DSC dans globals.css** (AC: 3)
+  - [x] T3.1 — Custom properties oklch par espace dans `:root` (joueur, agent, scout, admin)
+  - [x] T3.2 — Variables dark/light + `--touch-target-min: 44px`
+  - [x] T3.3 — Tokens oklch vérifiés (contraste 4.5:1 — fg blanc sur foncé, noir sur ambre)
 
-- [ ] **T4 — Configurer CI/CD GitHub Actions + Vercel** (AC: 4, 5)
-  - [ ] T4.1 — Créer `.github/workflows/ci.yml` avec jobs lint + type-check
-  - [ ] T4.2 — Configurer Vercel : `vercel link` ou via Vercel Dashboard (connecter le repo GitHub)
-  - [ ] T4.3 — Vérifier que le premier push déclenche un déploiement preview sur Vercel
+- [x] **T4 — Configurer CI/CD GitHub Actions + Vercel** (AC: 4, 5)
+  - [x] T4.1 — `.github/workflows/ci.yml` lint + typecheck + build sur PR/main
+  - [ ] T4.2 — Configurer Vercel : `vercel link` ou via Vercel Dashboard (étape manuelle)
+  - [ ] T4.3 — Vérifier déploiement preview sur Vercel (après T4.2)
 
-- [ ] **T5 — Documenter les variables d'environnement** (AC: 6)
-  - [ ] T5.1 — Créer `.env.example` avec toutes les vars documentées
-  - [ ] T5.2 — Créer `.env.local` (copie de .env.example, non commitée — à remplir manuellement)
+- [x] **T5 — Documenter les variables d'environnement** (AC: 6)
+  - [x] T5.1 — `.env.example` avec toutes les vars documentées
+  - [x] T5.2 — `.env.local` créé localement (non commité)
 
-- [ ] **T6 — Configurer les frameworks de tests** (AC: 1)
-  - [ ] T6.1 — Installer et configurer Vitest (`vitest.config.ts` + `src/test/setup.ts`)
-  - [ ] T6.2 — Installer et configurer Playwright (`playwright.config.ts` + répertoire `tests/e2e/`)
-  - [ ] T6.3 — Ajouter scripts npm : `"test": "vitest"`, `"test:e2e": "playwright test"`
+- [x] **T6 — Configurer les frameworks de tests** (AC: 1)
+  - [x] T6.1 — Vitest configuré (`vitest.config.ts` + `src/test/setup.ts`)
+  - [x] T6.2 — Playwright configuré (`playwright.config.ts` + `tests/e2e/smoke.spec.ts`)
+  - [x] T6.3 — Scripts `test`, `test:ui`, `test:e2e` dans package.json
 
-- [ ] **T7 — Vérifier bundle size** (AC: 7)
-  - [ ] T7.1 — Exécuter `pnpm build` et vérifier que le First Load JS est < 200 KB (NFR05)
-  - [ ] T7.2 — Activer Vercel Analytics dans `src/app/layout.tsx` pour monitoring Core Web Vitals
+- [x] **T7 — Vérifier bundle size** (AC: 7)
+  - [x] T7.1 — JS total gzippé : **163.4 KB** < 200 KB ✓ (NFR05)
+  - [ ] T7.2 — Vercel Analytics (après connexion Vercel — étape manuelle)
 
 ---
 

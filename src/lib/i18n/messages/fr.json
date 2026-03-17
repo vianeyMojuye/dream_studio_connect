@@ -1,0 +1,28 @@
+{
+  "app": {
+    "name": "Dream Studio Connect",
+    "tagline": "La plateforme de mise en relation talents football africain"
+  },
+  "nav": {
+    "home": "Accueil",
+    "login": "Se connecter",
+    "register": "S'inscrire"
+  },
+  "errors": {
+    "generic": "Une erreur est survenue. Veuillez réessayer.",
+    "unauthorized": "Accès non autorisé.",
+    "notFound": "Page introuvable.",
+    "upload": "Erreur lors de l'upload. Veuillez réessayer.",
+    "invalidCredentials": "Email ou mot de passe incorrect."
+  },
+  "common": {
+    "loading": "Chargement...",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "delete": "Supprimer",
+    "back": "Retour",
+    "next": "Suivant",
+    "share": "Partager"
+  }
+}
