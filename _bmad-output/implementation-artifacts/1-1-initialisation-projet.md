@@ -47,8 +47,8 @@ so that toute l'équipe dispose d'une base technique fonctionnelle, déployable 
 
 - [x] **T4 — Configurer CI/CD GitHub Actions + Vercel** (AC: 4, 5)
   - [x] T4.1 — `.github/workflows/ci.yml` lint + typecheck + build sur PR/main
-  - [ ] T4.2 — Configurer Vercel : `vercel link` ou via Vercel Dashboard (étape manuelle)
-  - [ ] T4.3 — Vérifier déploiement preview sur Vercel (après T4.2)
+  - [x] T4.2 — Configurer Vercel : `vercel link` ou via Vercel Dashboard (étape manuelle)
+  - [x] T4.3 — Vérifier déploiement preview sur Vercel (après T4.2)
 
 - [x] **T5 — Documenter les variables d'environnement** (AC: 6)
   - [x] T5.1 — `.env.example` avec toutes les vars documentées
@@ -61,7 +61,7 @@ so that toute l'équipe dispose d'une base technique fonctionnelle, déployable 
 
 - [x] **T7 — Vérifier bundle size** (AC: 7)
   - [x] T7.1 — JS total gzippé : **163.4 KB** < 200 KB ✓ (NFR05)
-  - [ ] T7.2 — Vercel Analytics (après connexion Vercel — étape manuelle)
+  - [x] T7.2 — Vercel Analytics (après connexion Vercel — étape manuelle)
 
 ---
 
