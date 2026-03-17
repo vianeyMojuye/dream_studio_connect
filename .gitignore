@@ -15,3 +15,7 @@ test-results/
 
 # Build
 tsconfig.tsbuildinfo
+
+node_modules/
+.pnpm-store/
+.pnpm/
