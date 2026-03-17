@@ -1,0 +1,105 @@
+# generated: 2026-03-17
+# project: dream_studio_connect
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: "2026-03-17"
+project: dream_studio_connect
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  # ─── Epic 1 : Fondation Projet & Identité Utilisateur (MVP) ───────────────
+  epic-1: in-progress
+  1-1-initialisation-projet: in-progress
+  1-2-schema-donnees-multi-tenant: backlog
+  1-3-authentification-rbac: backlog
+  1-4-inscription-multi-role-consentement: backlog
+  1-5-langue-interface-theme: backlog
+  1-6-gestion-compte-utilisateur: backlog
+  epic-1-retrospective: optional
+
+  # ─── Epic 2 : Passeport Talent Joueur (MVP) ───────────────────────────────
+  epic-2: backlog
+  2-1-creation-passeport-talent: backlog
+  2-2-upload-video-compression: backlog
+  2-3-profil-public-lien-partage: backlog
+  2-4-mise-a-jour-profil-score-completude: backlog
+  epic-2-retrospective: optional
+
+  # ─── Epic 3 : Espace Agent — Recherche & Mise en Relation (MVP) ───────────
+  epic-3: backlog
+  3-1-moteur-recherche-filtre: backlog
+  3-2-consultation-profil-complet: backlog
+  3-3-carnet-suivi-favoris-notes: backlog
+  3-4-messagerie-directe-agent-joueur: backlog
+  3-5-notifications-inapp-whatsapp: backlog
+  epic-3-retrospective: optional
+
+  # ─── Epic 4 : Espace Admin — Back-Office & Modération (MVP) ──────────────
+  epic-4: backlog
+  4-1-tableau-de-bord-sante: backlog
+  4-2-validation-suspension-suppression-comptes: backlog
+  4-3-signalement-moderation-contenus: backlog
+  4-4-gestion-plans-tarifaires: backlog
+  epic-4-retrospective: optional
+
+  # ─── Epic 5 : Paiements Mobile Money & Abonnements Agents (MVP) ──────────
+  epic-5: backlog
+  5-1-integration-mobile-money: backlog
+  5-2-souscription-abonnement-historique: backlog
+  5-3-activation-desactivation-acces-agent: backlog
+  epic-5-retrospective: optional
+
+  # ─── Epic 6 : Scout Citoyen & Collecte Terrain (V1.0) ────────────────────
+  epic-6: backlog
+  6-1-upload-clip-terrain-tagging: backlog
+  6-2-profil-proxy-joueur: backlog
+  6-3-queue-upload-offline: backlog
+  6-4-commissions-badge-scout: backlog
+  epic-6-retrospective: optional
+
+  # ─── Epic 7 : PWA Offline, Performance & Push Notifications (V1.0) ───────
+  epic-7: backlog
+  7-1-service-worker-cache-offline: backlog
+  7-2-installation-pwa-android: backlog
+  7-3-firebase-cloud-messaging: backlog
+  epic-7-retrospective: optional
+
+  # ─── Epic 8 : Validations Communautaires & Alertes Agents (V1.0) ─────────
+  epic-8: backlog
+  8-1-validation-competence-joueur: backlog
+  8-2-badges-validation-profil-public: backlog
+  8-3-alertes-personnalisees-agents: backlog
+  epic-8-retrospective: optional
