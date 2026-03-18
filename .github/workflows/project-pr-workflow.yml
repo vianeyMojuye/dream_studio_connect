@@ -1,0 +1,72 @@
+name: Project PR Workflow
+
+on:
+  pull_request:
+    types: [opened, ready_for_review, review_requested, review_request_removed, closed]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  enforce-review-before-merge:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check review status before merge
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            if (!pr.requested_reviewers.length && pr.requested_reviewers.length !== 0) {
+              core.setFailed('A review must be requested before merging.');
+            }
+
+  auto-label-pr-status:
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set PR status labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const labels = pr.labels.map(l => l.name);
+            let newLabel = '';
+            if (pr.draft) {
+              newLabel = 'ready';
+            } else if (pr.state === 'open' && !pr.draft) {
+              newLabel = 'in progress';
+            }
+            if (github.event.action === 'opened' || github.event.action === 'ready_for_review') {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                labels: [newLabel]
+              });
+            }
+            if (github.event.action === 'review_requested') {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                labels: ['in review']
+              });
+            }
+
+  auto-delete-branch:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete branch after merge
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const branch = pr.head.ref;
+            if (branch !== 'main' && branch !== 'master') {
+              await github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `heads/${branch}`
+              });
+            }
