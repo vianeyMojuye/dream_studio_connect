@@ -1,4 +1,21 @@
 # BMAD
 _bmad/
 .claude/
-.github/
+# Next.js
+.next/
+out/
+
+# Env
+.env*.local
+.env
+
+# Test artifacts
+playwright-report/
+test-results/
+
+# Build
+tsconfig.tsbuildinfo
+
+node_modules/
+.pnpm-store/
+.pnpm/

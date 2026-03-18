@@ -1,0 +1,29 @@
+name: Assign Cross Reviewer
+
+on:
+  pull_request:
+    types: [opened, ready_for_review, reopened]
+
+jobs:
+  assign-reviewer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set reviewer based on author
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const author = context.payload.pull_request.user.login;
+            let reviewer = '';
+            if (author === 'vianeyMojuye') {
+              reviewer = 'Marial-Nk';
+            } else if (author === 'Marial-Nk') {
+              reviewer = 'vianeyMojuye';
+            }
+            if (reviewer) {
+              await github.rest.pulls.requestReviewers({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+                reviewers: [reviewer]
+              });
+            }
