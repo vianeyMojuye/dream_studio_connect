@@ -1,0 +1,73 @@
+// Learn more about Prisma schema: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum Role {
+  JOUEUR
+  AGENT
+  SCOUT
+  ADMIN
+}
+
+// ─── Tenant ───────────────────────────────────────────────────────────────────
+
+model Tenant {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  country   String   @db.Char(2)
+  createdAt DateTime @default(now())
+
+  users     User[]
+  auditLogs AuditLog[]
+
+  @@map("tenants")
+}
+
+// ─── User ─────────────────────────────────────────────────────────────────────
+
+model User {
+  id                       String   @id @default(cuid())
+  tenantId                 String
+  email                    String
+  passwordHash             String
+  role                     Role
+  name                     String
+  isMinor                  Boolean  @default(false)
+  parentalConsentValidated Boolean  @default(false)
+  isSuspended              Boolean  @default(false)
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([email, tenantId])
+  @@index([tenantId])
+  @@map("users")
+}
+
+// ─── AuditLog (NFR12 — immuable, actions admin) ───────────────────────────────
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  tenantId    String
+  actorId     String
+  action      String
+  targetId    String?
+  targetModel String?
+  createdAt   DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId])
+  @@map("audit_logs")
+}
