@@ -13,6 +13,7 @@ export default defineConfig({
   datasource: {
     // DIRECT_URL pour les migrations CLI (bypass PgBouncer Neon)
     // DATABASE_URL (pooled) est utilisé par le runtime via PrismaNeon adapter
-    url: process.env["DIRECT_URL"] ?? process.env["DATABASE_URL"],
+    // Fallback "file:./dev.db" pour prisma generate en CI (pas de DB nécessaire pour generate)
+    url: process.env["DIRECT_URL"] ?? process.env["DATABASE_URL"] ?? "postgresql://localhost:5432/placeholder",
   },
 });
