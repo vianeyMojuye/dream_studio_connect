@@ -1,6 +1,6 @@
 # Story 1.2 : Schéma de données multi-tenant (Prisma + Neon)
 
-Status: review
+Status: done
 
 ---
 
@@ -46,11 +46,11 @@ so that toutes les données sont isolées par tenant depuis la première ligne d
   - [x] T3.3 — `src/server/db/helpers.test.ts` : 4 tests Vitest ✅
 
 - [x] **T4 — Créer les migrations et le seed** (AC: 1, 2, 4)
-  - [ ] T4.1 — `pnpm dlx prisma migrate dev --name init` (nécessite DATABASE_URL réelle → étape manuelle post-Neon)
+  - [x] T4.1 — `pnpm dlx prisma migrate dev --name init` ✅ migration 20260319010128_init appliquée sur Neon
   - [x] T4.2 — `prisma/seed.ts` : upsert tenant-dev (CI, slug: dev)
   - [x] T4.3 — `package.json` : scripts `db:generate`, `db:migrate`, `db:seed`, `db:studio` + `prisma.seed` configuré
-  - [ ] T4.4 — `pnpm db:seed` (étape manuelle — nécessite DB réelle)
-  - [ ] T4.5 — Prisma Studio (étape manuelle)
+  - [x] T4.4 — `pnpm db:seed` ✅ tenant-dev créé en base
+  - [ ] T4.5 — Prisma Studio (étape manuelle optionnelle)
 
 - [x] **T5 — Connecter Upstash Redis** (AC: 6)
   - [x] T5.1 — `pnpm add @upstash/redis`
