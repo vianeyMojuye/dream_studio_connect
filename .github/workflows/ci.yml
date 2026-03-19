@@ -46,11 +46,13 @@ jobs:
       - name: T3/T5 — Tests unitaires
         run: pnpm test run
 
-      # ── T4 : Migrations + seed sur Neon ───────────────────────────────────
+      # ── T4 : Migrations + seed sur Neon (nécessite secrets DATABASE_URL + DIRECT_URL) ──
       - name: T4 — Appliquer les migrations Prisma
+        if: ${{ env.DATABASE_URL != '' }}
         run: pnpm dlx prisma migrate deploy
 
       - name: T4 — Seed tenant de développement
+        if: ${{ env.DATABASE_URL != '' }}
         run: pnpm db:seed
 
       # ── T6 : Build final ──────────────────────────────────────────────────
