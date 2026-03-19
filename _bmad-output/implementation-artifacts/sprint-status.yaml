@@ -43,7 +43,7 @@ development_status:
   # ─── Epic 1 : Fondation Projet & Identité Utilisateur (MVP) ───────────────
   epic-1: in-progress
   1-1-initialisation-projet: review
-  1-2-schema-donnees-multi-tenant: backlog
+  1-2-schema-donnees-multi-tenant: in-progress
   1-3-authentification-rbac: backlog
   1-4-inscription-multi-role-consentement: backlog
   1-5-langue-interface-theme: backlog
