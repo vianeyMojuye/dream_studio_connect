@@ -19,3 +19,4 @@ tsconfig.tsbuildinfo
 node_modules/
 .pnpm-store/
 .pnpm/
+/src/generated/prisma
