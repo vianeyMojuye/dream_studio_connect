@@ -1,4 +1,4 @@
-import { PrismaClient } from '@/generated/prisma/client'
+import { PrismaClient } from '../../generated/prisma/client'
 import { PrismaNeon } from '@prisma/adapter-neon'
 
 // Singleton Prisma — pattern anti-hot-reload Next.js dev
