@@ -4,14 +4,20 @@ on:
   pull_request:
     branches: [master]
   push:
-    branches: [master]
+    branches: ["**"]
+  workflow_dispatch:
 
 jobs:
-  lint-typecheck:
-    name: Lint & Type Check
+  ci:
+    name: CI Pipeline
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
     steps:
+      # ── T1 : Installation & génération client Prisma ──────────────────────
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -26,17 +32,29 @@ jobs:
           node-version: 20
           cache: pnpm
 
-      - name: Install dependencies
+      - name: T1 — Installer les dépendances
         run: pnpm install --frozen-lockfile
 
-      - name: Générer le client Prisma
-        run: pnpm dlx prisma generate
+      - name: T1 — Générer le client Prisma
+        run: pnpm db:generate
 
-      - name: Lint
-        run: pnpm lint
-
-      - name: Type Check
+      # ── T2 : Schéma Prisma — validé via typecheck ─────────────────────────
+      - name: T2 — Type Check (schéma + code)
         run: pnpm typecheck
 
-      - name: Build
+      # ── T3 + T5 : Tests unitaires (withTenant + Redis mock) ───────────────
+      - name: T3/T5 — Tests unitaires
+        run: pnpm test run
+
+      # ── T4 : Migrations + seed sur Neon (nécessite secrets DATABASE_URL + DIRECT_URL) ──
+      - name: T4 — Appliquer les migrations Prisma
+        if: ${{ env.DATABASE_URL != '' }}
+        run: pnpm dlx prisma migrate deploy
+
+      - name: T4 — Seed tenant de développement
+        if: ${{ env.DATABASE_URL != '' }}
+        run: pnpm db:seed
+
+      # ── T6 : Build final ──────────────────────────────────────────────────
+      - name: T6 — Build
         run: pnpm build

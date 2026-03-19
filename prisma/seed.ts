@@ -1,5 +1,10 @@
+import { neonConfig } from '@neondatabase/serverless'
 import { PrismaClient } from '../src/generated/prisma/client'
 import { PrismaNeon } from '@prisma/adapter-neon'
+import ws from 'ws'
+
+// Requis en environnement Node.js (CI, scripts) — pas nécessaire en Edge/Vercel
+neonConfig.webSocketConstructor = ws
 
 const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! })
 const prisma = new PrismaClient({ adapter })
