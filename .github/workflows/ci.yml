@@ -1,3 +1,7 @@
+      - name: Vérifier le contenu de src/generated/prisma
+        run: |
+          echo "Contenu de src/generated/prisma :"
+          ls -l src/generated/prisma
 name: CI
 
 on:
@@ -28,6 +32,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Générer le client Prisma
+        run: pnpm dlx prisma generate
 
       - name: Lint
         run: pnpm lint
