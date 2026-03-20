@@ -1,0 +1,27 @@
+# Protéger la branche master et définir un reviewer obligatoire sur GitHub
+
+1. Accédez à votre dépôt sur GitHub : https://github.com/vianeyMojuye/dream_studio_connect
+2. Allez dans "Settings" > "Branches" > "Branch protection rules".
+3. Cliquez sur "Add rule".
+4. Renseignez :
+   - Branch name pattern : `main` ou `master` (selon votre branche principale)
+   - Cochez :
+     - Require a pull request before merging
+     - Require approvals (définissez le nombre, ex : 1)
+     - (optionnel) Require review from Code Owners
+     - (optionnel) Require status checks to pass before merging
+   - Ajoutez les reviewers obligatoires dans la section "Code owners" (voir ci-dessous)
+5. Pour définir un reviewer précis, créez un fichier CODEOWNERS à la racine du repo ou dans `.github/` :
+
+```
+# Exemple de CODEOWNERS
+*       @votre-github-username
+```
+
+6. Commitez ce fichier et poussez-le sur le repo.
+
+---
+
+Ce fichier CODEOWNERS rendra obligatoire la review de l’utilisateur spécifié pour toute PR sur la branche protégée.
+
+Pour toute automatisation, indiquez-moi le reviewer GitHub à ajouter et je crée le fichier CODEOWNERS adapté.

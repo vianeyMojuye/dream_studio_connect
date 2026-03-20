@@ -36,7 +36,7 @@ jobs:
             } else if (pr.state === 'open' && !pr.draft) {
               newLabel = 'in progress';
             }
-            if (github.event.action === 'opened' || github.event.action === 'ready_for_review') {
+            if (context.payload.action === 'opened' || context.payload.action === 'ready_for_review') {
               await github.rest.issues.addLabels({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -44,7 +44,7 @@ jobs:
                 labels: [newLabel]
               });
             }
-            if (github.event.action === 'review_requested') {
+            if (context.payload.action === 'review_requested') {
               await github.rest.issues.addLabels({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
