@@ -1,28 +1,40 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { registerUser } from '@/lib/register'
 
+type Tenant = { slug: string; name: string; country: string }
+
 type Props = {
   defaultRole?: 'JOUEUR' | 'AGENT'
-  defaultTenantSlug?: string
 }
 
-export function RegisterForm({ defaultRole = 'JOUEUR', defaultTenantSlug = 'dev' }: Props) {
+export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
   const router = useRouter()
   const [form, setForm] = useState({
     name: '',
     email: '',
     password: '',
     role: defaultRole as 'JOUEUR' | 'AGENT',
-    tenantSlug: defaultTenantSlug,
+    tenantSlug: '',
     isMinor: false,
     parentalConsentGiven: false,
   })
+  const [tenants, setTenants] = useState<Tenant[]>([])
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    fetch('/api/tenants')
+      .then((r) => r.json())
+      .then((data: Tenant[]) => {
+        setTenants(data)
+        if (data.length === 1) setForm((f) => ({ ...f, tenantSlug: data[0].slug }))
+      })
+      .catch(() => {})
+  }, [])
 
   const set = <K extends keyof typeof form>(key: K, value: typeof form[K]) =>
     setForm((f) => ({ ...f, [key]: value }))
@@ -84,6 +96,28 @@ export function RegisterForm({ defaultRole = 'JOUEUR', defaultTenantSlug = 'dev'
           {error}
         </div>
       )}
+
+      {/* Pays */}
+      <div className="flex flex-col gap-1">
+        <label htmlFor="reg-tenant" className="text-sm font-medium">
+          Pays <span aria-hidden="true">*</span>
+        </label>
+        <select
+          id="reg-tenant"
+          required
+          aria-required="true"
+          value={form.tenantSlug}
+          onChange={(e) => set('tenantSlug', e.target.value)}
+          className="rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+        >
+          <option value="" disabled>Sélectionnez votre pays...</option>
+          {tenants.map((t) => (
+            <option key={t.slug} value={t.slug}>
+              {t.name} ({t.country})
+            </option>
+          ))}
+        </select>
+      </div>
 
       {/* Nom */}
       <div className="flex flex-col gap-1">

@@ -1,13 +1,12 @@
 import { RegisterForm } from '@/components/auth/RegisterForm'
 
 type Props = {
-  searchParams: Promise<{ role?: string; tenantSlug?: string }>
+  searchParams: Promise<{ role?: string }>
 }
 
 export default async function InscriptionPage({ searchParams }: Props) {
   const params = await searchParams
   const role = params.role === 'AGENT' ? 'AGENT' : 'JOUEUR'
-  const tenantSlug = params.tenantSlug ?? 'dev'
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
@@ -16,7 +15,7 @@ export default async function InscriptionPage({ searchParams }: Props) {
           <h1 className="text-2xl font-bold tracking-tight">Dream Studio Connect</h1>
           <p className="text-sm text-muted-foreground">Créez votre compte</p>
         </div>
-        <RegisterForm defaultRole={role} defaultTenantSlug={tenantSlug} />
+        <RegisterForm defaultRole={role} />
       </div>
     </main>
   )
