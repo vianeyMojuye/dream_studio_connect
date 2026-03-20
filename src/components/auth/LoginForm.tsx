@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { signIn, getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { z } from 'zod'
@@ -8,10 +8,12 @@ import { z } from 'zod'
 const loginSchema = z.object({
   email: z.string().email('Email invalide'),
   password: z.string().min(1, 'Mot de passe requis'),
-  tenantSlug: z.string().min(1, 'Tenant requis'),
+  tenantSlug: z.string().min(1, 'Veuillez sélectionner un pays'),
 })
 
 type LoginForm = z.infer<typeof loginSchema>
+
+type Tenant = { slug: string; name: string; country: string }
 
 const ROLE_REDIRECT: Record<string, string> = {
   JOUEUR: '/joueur/tableau-de-bord',
@@ -22,9 +24,22 @@ const ROLE_REDIRECT: Record<string, string> = {
 
 export function LoginForm() {
   const router = useRouter()
-  const [form, setForm] = useState<LoginForm>({ email: '', password: '', tenantSlug: 'dev' })
+  const [form, setForm] = useState<LoginForm>({ email: '', password: '', tenantSlug: '' })
+  const [tenants, setTenants] = useState<Tenant[]>([])
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    fetch('/api/tenants')
+      .then((r) => r.json())
+      .then((data: Tenant[]) => {
+        setTenants(data)
+        if (data.length === 1) {
+          setForm((f) => ({ ...f, tenantSlug: data[0].slug }))
+        }
+      })
+      .catch(() => {/* silencieux — le champ reste vide */})
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -73,6 +88,26 @@ export function LoginForm() {
           {error}
         </div>
       )}
+
+      <div className="flex flex-col gap-1">
+        <label htmlFor="tenantSlug" className="text-sm font-medium">
+          Pays
+        </label>
+        <select
+          id="tenantSlug"
+          required
+          value={form.tenantSlug}
+          onChange={(e) => setForm((f) => ({ ...f, tenantSlug: e.target.value }))}
+          className="rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+        >
+          <option value="" disabled>Sélectionnez votre pays...</option>
+          {tenants.map((t) => (
+            <option key={t.slug} value={t.slug}>
+              {t.name} ({t.country})
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div className="flex flex-col gap-1">
         <label htmlFor="email" className="text-sm font-medium">
