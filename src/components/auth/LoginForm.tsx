@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { signIn } from 'next-auth/react'
+import { signIn, getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { z } from 'zod'
 
@@ -56,8 +56,8 @@ export function LoginForm() {
       }
 
       // Récupérer la session pour rediriger selon le rôle (AC2)
-      const sessionRes = await fetch('/api/auth/session')
-      const session = await sessionRes.json()
+      router.refresh()
+      const session = await getSession()
       const role = session?.user?.role as string | undefined
       const redirect = (role && ROLE_REDIRECT[role]) ?? '/'
       router.push(redirect)
