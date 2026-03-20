@@ -15,6 +15,10 @@ jobs:
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       DIRECT_URL: ${{ secrets.DIRECT_URL }}
+      AUTH_SECRET: ${{ secrets.AUTH_SECRET || 'ci-test-secret-32-chars-minimum!!' }}
+      AUTH_URL: ${{ secrets.AUTH_URL || 'http://localhost:3000' }}
+      UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL || '' }}
+      UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN || '' }}
 
     steps:
       # ── T1 : Installation & génération client Prisma ──────────────────────
@@ -38,15 +42,15 @@ jobs:
       - name: T1 — Générer le client Prisma
         run: pnpm db:generate
 
-      # ── T2 : Schéma Prisma — validé via typecheck ─────────────────────────
-      - name: T2 — Type Check (schéma + code)
+      # ── T2 : Schéma Prisma + types Auth — validés via typecheck ───────────
+      - name: T2 — Type Check (schéma + types session Auth.js)
         run: pnpm typecheck
 
-      # ── T3 + T5 : Tests unitaires (withTenant + Redis mock) ───────────────
-      - name: T3/T5 — Tests unitaires
+      # ── T3 : Tests unitaires (auth, RBAC, withTenant, Redis mock) ─────────
+      - name: T3 — Tests unitaires (auth + RBAC + withTenant)
         run: pnpm test run
 
-      # ── T4 : Migrations + seed sur Neon (nécessite secrets DATABASE_URL + DIRECT_URL) ──
+      # ── T4 : Migrations + seed sur Neon (nécessite secrets DATABASE_URL) ──
       - name: T4 — Appliquer les migrations Prisma
         if: ${{ env.DATABASE_URL != '' }}
         run: pnpm dlx prisma migrate deploy
@@ -55,6 +59,10 @@ jobs:
         if: ${{ env.DATABASE_URL != '' }}
         run: pnpm db:seed
 
-      # ── T6 : Build final ──────────────────────────────────────────────────
+      # ── T5 : Lint ─────────────────────────────────────────────────────────
+      - name: T5 — Lint
+        run: pnpm lint
+
+      # ── T6 : Build final (inclut prisma generate) ─────────────────────────
       - name: T6 — Build
         run: pnpm build

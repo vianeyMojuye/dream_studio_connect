@@ -1,0 +1,9 @@
+# CODEOWNERS pour review croisée obligatoire
+# Marial-Nk doit review vos PRs, et vous les siennes
+
+# Pour toutes les modifications, Marial-Nk est reviewer par défaut
+* @Marial-Nk
+
+# Pour les modifications faites par Marial-Nk, vous êtes reviewer
+# (Remplacez 'votre-github-username' par votre identifiant GitHub)
+# Pour une review croisée stricte, il faut une gestion manuelle ou un bot, GitHub ne supporte pas nativement la logique "si auteur = X alors reviewer = Y".

@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  app:
+    build:
+      context: .
+      args:
+        AUTH_URL: http://localhost:3000
+    container_name: dream_studio_connect_app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_APP_URL=http://localhost:3000
+      # Auth.js v5
+      - AUTH_SECRET=${AUTH_SECRET}
+      - AUTH_URL=${AUTH_URL:-http://localhost:3000}
+      # Neon Postgres (Prisma)
+      - DATABASE_URL=${DATABASE_URL}
+      - DIRECT_URL=${DIRECT_URL}
+      # Upstash Redis (optionnel)
+      - UPSTASH_REDIS_REST_URL=${UPSTASH_REDIS_REST_URL:-}
+      - UPSTASH_REDIS_REST_TOKEN=${UPSTASH_REDIS_REST_TOKEN:-}
+    env_file:
+      - .env
+    restart: unless-stopped
+
+volumes:
+  pgdata:
