@@ -1,0 +1,79 @@
+{
+  "auth": {
+    "connexion": {
+      "title": "Dream Studio Connect",
+      "subtitle": "Sign in to your space",
+      "email": "Email address",
+      "password": "Password",
+      "submit": "Sign in",
+      "loading": "Signing in...",
+      "create_account": "No account yet?",
+      "create_link": "Create an account",
+      "forgot_password": "Forgot password?",
+      "error_generic": "Invalid credentials. Check your email and password.",
+      "error_suspended": "Your account has been suspended. Contact support."
+    },
+    "inscription": {
+      "title": "Dream Studio Connect",
+      "subtitle": "Create your account",
+      "name": "Full name",
+      "email": "Email address",
+      "password": "Password",
+      "password_hint": "Minimum 8 characters",
+      "role": "I am",
+      "role_joueur": "Player (talent)",
+      "role_agent": "Agent (recruiter)",
+      "is_minor": "I am a minor under 18 years old",
+      "submit": "Create my account",
+      "loading": "Creating account...",
+      "has_account": "Already have an account?",
+      "login_link": "Sign in",
+      "success_title": "Account created successfully!",
+      "success_minor": "Your profile will remain private until parental consent is validated by our team.",
+      "success_email": "A confirmation email has been sent to",
+      "success_login": "Sign in",
+      "consent_title": "Parental consent required",
+      "consent_desc": "Your profile will remain private until parental consent is validated by our team. Download the form, have it signed by your legal representative, then send it to our team.",
+      "consent_pdf": "Download PDF form",
+      "consent_check": "I have read the form and my legal representative has given consent for the creation of this account",
+      "country": "Country",
+      "country_placeholder": "Select your country...",
+      "consent_pdf_aria": "Download the parental consent form (opens in a new tab)"
+    },
+    "mot_de_passe_oublie": {
+      "title": "Forgot password",
+      "subtitle": "Enter your email to receive a reset link",
+      "email": "Email address",
+      "submit": "Send reset link",
+      "loading": "Sending...",
+      "success": "If an account exists with this email, you will receive a reset link in a few minutes.",
+      "back_login": "Back to sign in",
+      "error_generic": "An error occurred. Please try again."
+    },
+    "reinitialiser_mdp": {
+      "title": "New password",
+      "subtitle": "Choose a new password for your account",
+      "password": "New password",
+      "password_hint": "Minimum 8 characters",
+      "confirm": "Confirm password",
+      "submit": "Reset password",
+      "loading": "Resetting...",
+      "success": "Password reset successfully.",
+      "success_login": "Sign in",
+      "error_invalid": "Invalid or expired link. Request a new one.",
+      "error_mismatch": "Passwords do not match.",
+      "error_weak": "Password must be at least 8 characters.",
+      "error_generic": "An error occurred. Please try again."
+    }
+  },
+  "preferences": {
+    "language": "Language",
+    "theme": "Theme",
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System"
+  },
+  "nav": {
+    "logout": "Sign out"
+  }
+}

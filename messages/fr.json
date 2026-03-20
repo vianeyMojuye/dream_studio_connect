@@ -1,0 +1,79 @@
+{
+  "auth": {
+    "connexion": {
+      "title": "Dream Studio Connect",
+      "subtitle": "Connectez-vous à votre espace",
+      "email": "Adresse email",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "loading": "Connexion...",
+      "create_account": "Pas encore de compte ?",
+      "create_link": "Créer un compte",
+      "forgot_password": "Mot de passe oublié ?",
+      "error_generic": "Identifiants incorrects. Vérifiez votre email et mot de passe.",
+      "error_suspended": "Votre compte a été suspendu. Contactez le support."
+    },
+    "inscription": {
+      "title": "Dream Studio Connect",
+      "subtitle": "Créez votre compte",
+      "name": "Nom complet",
+      "email": "Adresse email",
+      "password": "Mot de passe",
+      "password_hint": "Minimum 8 caractères",
+      "role": "Je suis",
+      "role_joueur": "Joueur (talent)",
+      "role_agent": "Agent (recruteur)",
+      "is_minor": "Je suis mineur(e) de moins de 18 ans",
+      "submit": "Créer mon compte",
+      "loading": "Création du compte...",
+      "has_account": "Déjà un compte ?",
+      "login_link": "Se connecter",
+      "success_title": "Compte créé avec succès !",
+      "success_minor": "Votre profil restera non-public jusqu'à validation du consentement parental par notre équipe.",
+      "success_email": "Un email de confirmation vous a été envoyé à",
+      "success_login": "Se connecter",
+      "consent_title": "Consentement parental requis",
+      "consent_desc": "Votre profil restera non-public tant que le consentement parental n'aura pas été validé. Téléchargez le formulaire, faites-le signer par votre représentant légal, puis envoyez-le à notre équipe.",
+      "consent_pdf": "Télécharger le formulaire PDF",
+      "consent_check": "J'ai pris connaissance du formulaire et mon représentant légal a donné son accord pour la création de ce compte",
+      "country": "Pays",
+      "country_placeholder": "Sélectionnez votre pays...",
+      "consent_pdf_aria": "Télécharger le formulaire de consentement parental (ouvre un nouvel onglet)"
+    },
+    "mot_de_passe_oublie": {
+      "title": "Mot de passe oublié",
+      "subtitle": "Entrez votre email pour recevoir un lien de réinitialisation",
+      "email": "Adresse email",
+      "submit": "Envoyer le lien",
+      "loading": "Envoi en cours...",
+      "success": "Si un compte existe avec cet email, vous recevrez un lien de réinitialisation dans quelques minutes.",
+      "back_login": "Retour à la connexion",
+      "error_generic": "Une erreur est survenue. Réessayez."
+    },
+    "reinitialiser_mdp": {
+      "title": "Nouveau mot de passe",
+      "subtitle": "Choisissez un nouveau mot de passe pour votre compte",
+      "password": "Nouveau mot de passe",
+      "password_hint": "Minimum 8 caractères",
+      "confirm": "Confirmer le mot de passe",
+      "submit": "Réinitialiser le mot de passe",
+      "loading": "Réinitialisation...",
+      "success": "Mot de passe réinitialisé avec succès.",
+      "success_login": "Se connecter",
+      "error_invalid": "Lien invalide ou expiré. Demandez un nouveau lien.",
+      "error_mismatch": "Les mots de passe ne correspondent pas.",
+      "error_weak": "Le mot de passe doit contenir au moins 8 caractères.",
+      "error_generic": "Une erreur est survenue. Réessayez."
+    }
+  },
+  "preferences": {
+    "language": "Langue",
+    "theme": "Thème",
+    "dark": "Sombre",
+    "light": "Clair",
+    "system": "Système"
+  },
+  "nav": {
+    "logout": "Se déconnecter"
+  }
+}

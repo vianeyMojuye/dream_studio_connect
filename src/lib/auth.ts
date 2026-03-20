@@ -5,10 +5,10 @@ import { z } from 'zod'
 import { prisma } from '@/server/db'
 import { authConfig } from './auth.config'
 
+
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1),
-  tenantSlug: z.string().min(1),
 })
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -18,28 +18,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Mot de passe', type: 'password' },
-        tenantSlug: { label: 'Tenant', type: 'text' },
       },
       async authorize(credentials) {
+          // DEBUG: log le slug du tenant récupéré
         const parsed = loginSchema.safeParse(credentials)
-        if (!parsed.success) return null
+        if (!parsed.success) {
+          throw new Error('Données invalides')
+        }
 
-        const { email, password, tenantSlug } = parsed.data
+        const { email, password } = parsed.data
 
-        const tenant = await prisma.tenant.findUnique({
-          where: { slug: tenantSlug },
-        })
-        if (!tenant) return null
+        // Recherche le premier utilisateur avec cet email
+        const user = await prisma.user.findFirst({ where: { email } })
+        if (!user) {
+          throw new Error("Utilisateur inexistant")
+        }
 
-        const user = await prisma.user.findUnique({
-          where: { email_tenantId: { email, tenantId: tenant.id } },
-        })
-        if (!user) return null
-
+        // Vérifie le mot de passe
         const valid = await bcrypt.compare(password, user.passwordHash)
-        if (!valid) return null
+        if (!valid) {
+          throw new Error('Mot de passe incorrect')
+        }
 
-        if (user.isSuspended) throw new Error('ACCOUNT_SUSPENDED')
+        if (user.isSuspended) {
+          throw new Error('Compte suspendu')
+        }
 
         return {
           id: user.id,

@@ -1,4 +1,8 @@
 import { neonConfig } from '@neondatabase/serverless'
+import dotenv from 'dotenv'
+
+// Charge .env.local explicitement pour les scripts Node
+dotenv.config({ path: '.env.local' })
 import { PrismaClient } from '../src/generated/prisma/client'
 import { PrismaNeon } from '@prisma/adapter-neon'
 import ws from 'ws'

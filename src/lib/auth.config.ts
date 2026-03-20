@@ -13,6 +13,7 @@ export const authConfig: NextAuthConfig = {
         const u = user as any
         token.role = u.role
         token.tenantId = u.tenantId
+        token.tenantSlug = u.tenantSlug
       }
       return token
     },
@@ -21,6 +22,7 @@ export const authConfig: NextAuthConfig = {
       const s = session as any
       s.user.role = token.role
       s.user.tenantId = token.tenantId
+      s.user.tenantSlug = token.tenantSlug
       return session
     },
     authorized({ auth }) {

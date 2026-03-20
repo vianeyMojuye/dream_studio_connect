@@ -1,6 +1,6 @@
 # Story 1.3 : Authentification & RBAC (Auth.js v5, 4 rôles)
 
-Status: in-progress
+Status: done
 
 ---
 

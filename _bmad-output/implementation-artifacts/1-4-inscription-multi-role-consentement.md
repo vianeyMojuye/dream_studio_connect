@@ -1,6 +1,6 @@
 # Story 1.4 — Inscription multi-rôle & consentement parental
 
-## Status: in-progress
+## Status: done
 
 ---
 
