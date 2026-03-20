@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { registerUser } from './register'
+import type { RegisterResult } from './register-schema'
 
 // Mock Prisma
 vi.mock('@/server/db', () => ({
@@ -21,17 +22,28 @@ vi.mock('bcryptjs', () => ({
 }))
 
 import { prisma } from '@/server/db'
+import type { Tenant, User } from '@/generated/prisma/client'
 
-const mockTenant = { id: 'tenant-1', slug: 'dev', name: 'Dev', country: 'CM', createdAt: new Date() }
+const mockTenant: Tenant = {
+  id: 'tenant-1', slug: 'dev', name: 'Dev', country: 'CM', createdAt: new Date(),
+}
+
+const mockUser: User = {
+  id: 'user-1', email: 'joueur@test.com', role: 'JOUEUR', name: 'Jean',
+  passwordHash: 'hashed', isMinor: false, parentalConsentValidated: false,
+  isSuspended: false, tenantId: 'tenant-1', createdAt: new Date(), updatedAt: new Date(),
+}
+
+function getError(result: RegisterResult): string {
+  if (!result.success) return result.error
+  throw new Error('Expected failure result')
+}
 
 beforeEach(() => {
   vi.clearAllMocks()
-  vi.mocked(prisma.tenant.findUnique).mockResolvedValue(mockTenant as any)
+  vi.mocked(prisma.tenant.findUnique).mockResolvedValue(mockTenant)
   vi.mocked(prisma.user.findUnique).mockResolvedValue(null)
-  vi.mocked(prisma.user.create).mockResolvedValue({
-    id: 'user-1', email: 'joueur@test.com', role: 'JOUEUR', isMinor: false,
-    parentalConsentValidated: false, tenantId: 'tenant-1',
-  } as any)
+  vi.mocked(prisma.user.create).mockResolvedValue(mockUser)
 })
 
 describe('registerUser', () => {
@@ -57,7 +69,7 @@ describe('registerUser', () => {
       role: 'JOUEUR', tenantSlug: 'dev', isMinor: false, parentalConsentGiven: false,
     })
     expect(result.success).toBe(false)
-    expect((result as any).error).toMatch(/court/i)
+    expect(getError(result)).toMatch(/court/i)
   })
 
   it('T4 — rejette un email invalide', async () => {
@@ -66,17 +78,17 @@ describe('registerUser', () => {
       role: 'JOUEUR', tenantSlug: 'dev', isMinor: false, parentalConsentGiven: false,
     })
     expect(result.success).toBe(false)
-    expect((result as any).error).toMatch(/email/i)
+    expect(getError(result)).toMatch(/email/i)
   })
 
   it('T5 — rejette un email déjà utilisé', async () => {
-    vi.mocked(prisma.user.findUnique).mockResolvedValue({ id: 'existing' } as any)
+    vi.mocked(prisma.user.findUnique).mockResolvedValue(mockUser)
     const result = await registerUser({
       email: 'existing@test.com', password: 'password123', name: 'Test',
       role: 'JOUEUR', tenantSlug: 'dev', isMinor: false, parentalConsentGiven: false,
     })
     expect(result.success).toBe(false)
-    expect((result as any).error).toMatch(/déjà utilisée/i)
+    expect(getError(result)).toMatch(/déjà utilisée/i)
   })
 
   it('T6 — mineur sans consentement parental → rejeté', async () => {
@@ -85,14 +97,11 @@ describe('registerUser', () => {
       role: 'JOUEUR', tenantSlug: 'dev', isMinor: true, parentalConsentGiven: false,
     })
     expect(result.success).toBe(false)
-    expect((result as any).error).toMatch(/consentement parental/i)
+    expect(getError(result)).toMatch(/consentement parental/i)
   })
 
   it('T7 — mineur avec consentement → compte créé, isMinor=true', async () => {
-    vi.mocked(prisma.user.create).mockResolvedValue({
-      id: 'user-minor', email: 'mineur@test.com', role: 'JOUEUR', isMinor: true,
-      parentalConsentValidated: false, tenantId: 'tenant-1',
-    } as any)
+    vi.mocked(prisma.user.create).mockResolvedValue({ ...mockUser, isMinor: true })
     const result = await registerUser({
       email: 'mineur@test.com', password: 'password123', name: 'Junior',
       role: 'JOUEUR', tenantSlug: 'dev', isMinor: true, parentalConsentGiven: true,
@@ -108,6 +117,6 @@ describe('registerUser', () => {
       role: 'JOUEUR', tenantSlug: 'unknown', isMinor: false, parentalConsentGiven: false,
     })
     expect(result.success).toBe(false)
-    expect((result as any).error).toMatch(/tenant/i)
+    expect(getError(result)).toMatch(/tenant/i)
   })
 })
