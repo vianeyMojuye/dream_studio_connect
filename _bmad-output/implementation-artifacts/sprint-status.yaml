@@ -46,7 +46,7 @@ development_status:
   1-2-schema-donnees-multi-tenant: done
   1-3-authentification-rbac: review
   1-4-inscription-multi-role-consentement: in-progress
-  1-5-langue-interface-theme: backlog
+  1-5-langue-interface-theme: in-progress
   1-6-gestion-compte-utilisateur: backlog
   epic-1-retrospective: optional
 

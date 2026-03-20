@@ -2,22 +2,25 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { registerUser } from '@/lib/register'
 
 type Tenant = { slug: string; name: string; country: string }
 
 type Props = {
   defaultRole?: 'JOUEUR' | 'AGENT'
+  defaultTenantSlug?: string
 }
 
-export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
+export function RegisterForm({ defaultRole = 'JOUEUR', defaultTenantSlug = '' }: Props) {
+  const t = useTranslations('auth.inscription')
   const router = useRouter()
   const [form, setForm] = useState({
     name: '',
     email: '',
     password: '',
     role: defaultRole as 'JOUEUR' | 'AGENT',
-    tenantSlug: '',
+    tenantSlug: defaultTenantSlug,
     isMinor: false,
     parentalConsentGiven: false,
   })
@@ -31,7 +34,7 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
       .then((r) => r.json())
       .then((data: Tenant[]) => {
         setTenants(data)
-        if (data.length === 1) setForm((f) => ({ ...f, tenantSlug: data[0].slug }))
+        if (data.length === 1) setForm((f) => ({ ...f, tenantSlug: data[0]?.slug ?? '' }))
       })
       .catch(() => {})
   }, [])
@@ -63,18 +66,14 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
         aria-live="polite"
         className="rounded-md bg-green-50 border border-green-200 px-6 py-5 text-sm text-green-800 space-y-3"
       >
-        <p className="font-semibold text-base">✅ Compte créé avec succès !</p>
-        {form.isMinor && (
-          <p>
-            Votre profil restera non-public jusqu&apos;à validation du consentement parental par notre équipe.
-          </p>
-        )}
-        <p>Un email de confirmation vous a été envoyé à <strong>{form.email}</strong>.</p>
+        <p className="font-semibold text-base">✅ {t('success_title')}</p>
+        {form.isMinor && <p>{t('success_minor')}</p>}
+        <p>{t('success_email')} <strong>{form.email}</strong>.</p>
         <button
           onClick={() => router.push('/auth/connexion')}
           className="mt-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
         >
-          Se connecter
+          {t('success_login')}
         </button>
       </div>
     )
@@ -84,7 +83,7 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
     <form
       onSubmit={handleSubmit}
       className="flex flex-col gap-4 w-full max-w-sm"
-      aria-label="Formulaire d'inscription"
+      aria-label={t('title')}
       noValidate
     >
       {error && (
@@ -100,7 +99,7 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
       {/* Pays */}
       <div className="flex flex-col gap-1">
         <label htmlFor="reg-tenant" className="text-sm font-medium">
-          Pays <span aria-hidden="true">*</span>
+          {t('country')} <span aria-hidden="true">*</span>
         </label>
         <select
           id="reg-tenant"
@@ -109,11 +108,12 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
           value={form.tenantSlug}
           onChange={(e) => set('tenantSlug', e.target.value)}
           className="rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+          suppressHydrationWarning
         >
-          <option value="" disabled>Sélectionnez votre pays...</option>
-          {tenants.map((t) => (
-            <option key={t.slug} value={t.slug}>
-              {t.name} ({t.country})
+          <option value="" disabled>{t('country_placeholder')}</option>
+          {tenants.map((ten) => (
+            <option key={ten.slug} value={ten.slug}>
+              {ten.name} ({ten.country})
             </option>
           ))}
         </select>
@@ -122,7 +122,7 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
       {/* Nom */}
       <div className="flex flex-col gap-1">
         <label htmlFor="reg-name" className="text-sm font-medium">
-          Nom complet <span aria-hidden="true">*</span>
+          {t('name')} <span aria-hidden="true">*</span>
         </label>
         <input
           id="reg-name"
@@ -133,7 +133,6 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
           value={form.name}
           onChange={(e) => set('name', e.target.value)}
           className="rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          placeholder="Jean Dupont"
           suppressHydrationWarning
         />
       </div>
@@ -141,7 +140,7 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
       {/* Email */}
       <div className="flex flex-col gap-1">
         <label htmlFor="reg-email" className="text-sm font-medium">
-          Adresse email <span aria-hidden="true">*</span>
+          {t('email')} <span aria-hidden="true">*</span>
         </label>
         <input
           id="reg-email"
@@ -152,7 +151,6 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
           value={form.email}
           onChange={(e) => set('email', e.target.value)}
           className="rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          placeholder="jean@example.com"
           suppressHydrationWarning
         />
       </div>
@@ -160,7 +158,7 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
       {/* Mot de passe */}
       <div className="flex flex-col gap-1">
         <label htmlFor="reg-password" className="text-sm font-medium">
-          Mot de passe <span aria-hidden="true">*</span>
+          {t('password')} <span aria-hidden="true">*</span>
         </label>
         <input
           id="reg-password"
@@ -175,14 +173,14 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
           suppressHydrationWarning
         />
         <p id="reg-password-hint" className="text-xs text-muted-foreground">
-          Minimum 8 caractères
+          {t('password_hint')}
         </p>
       </div>
 
       {/* Rôle */}
       <div className="flex flex-col gap-1">
         <label htmlFor="reg-role" className="text-sm font-medium">
-          Je suis <span aria-hidden="true">*</span>
+          {t('role')} <span aria-hidden="true">*</span>
         </label>
         <select
           id="reg-role"
@@ -191,9 +189,10 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
           value={form.role}
           onChange={(e) => set('role', e.target.value as 'JOUEUR' | 'AGENT')}
           className="rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+          suppressHydrationWarning
         >
-          <option value="JOUEUR">Joueur (talent)</option>
-          <option value="AGENT">Agent (recruteur)</option>
+          <option value="JOUEUR">{t('role_joueur')}</option>
+          <option value="AGENT">{t('role_agent')}</option>
         </select>
       </div>
 
@@ -209,7 +208,7 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
           suppressHydrationWarning
         />
         <label htmlFor="reg-minor" className="text-sm">
-          Je suis mineur(e) de moins de 18 ans
+          {t('is_minor')}
         </label>
       </div>
 
@@ -220,24 +219,20 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
           aria-labelledby="parental-consent-heading"
           className="rounded-md border border-amber-300 bg-amber-50 px-4 py-4 space-y-3"
         >
-          <h2
-            id="parental-consent-heading"
-            className="text-sm font-semibold text-amber-900"
-          >
-            Consentement parental requis
+          <h2 id="parental-consent-heading" className="text-sm font-semibold text-amber-900">
+            {t('consent_title')}
           </h2>
           <p id="reg-minor-desc" className="text-xs text-amber-800">
-            Votre profil restera non-public tant que le consentement parental n&apos;aura pas été validé.
-            Téléchargez le formulaire, faites-le signer par votre représentant légal, puis envoyez-le à notre équipe.
+            {t('consent_desc')}
           </p>
           <a
             href="/api/consentement-parental"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Télécharger le formulaire de consentement parental (ouvre un nouvel onglet)"
+            aria-label={t('consent_pdf_aria')}
             className="inline-block rounded-md border border-amber-600 bg-amber-100 px-3 py-1.5 text-xs font-medium text-amber-900 hover:bg-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-500"
           >
-            📄 Télécharger le formulaire PDF
+            📄 {t('consent_pdf')}
           </a>
           <div className="flex items-start gap-2">
             <input
@@ -251,7 +246,7 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
               suppressHydrationWarning
             />
             <label htmlFor="reg-parental-consent" className="text-xs text-amber-800">
-              J&apos;ai pris connaissance du formulaire et mon représentant légal a donné son accord pour la création de ce compte <span aria-hidden="true">*</span>
+              {t('consent_check')} <span aria-hidden="true">*</span>
             </label>
           </div>
         </div>
@@ -262,13 +257,13 @@ export function RegisterForm({ defaultRole = 'JOUEUR' }: Props) {
         disabled={loading}
         className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
       >
-        {loading ? 'Création du compte...' : 'Créer mon compte'}
+        {loading ? t('loading') : t('submit')}
       </button>
 
       <p className="text-center text-xs text-muted-foreground">
-        Déjà un compte ?{' '}
+        {t('has_account')}{' '}
         <a href="/auth/connexion" className="underline hover:text-foreground focus:outline-none focus:ring-1 focus:ring-primary rounded">
-          Se connecter
+          {t('login_link')}
         </a>
       </p>
     </form>

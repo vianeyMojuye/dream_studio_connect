@@ -1,17 +1,18 @@
 'use client'
 
 import { useState } from 'react'
-import { signIn, getSession } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { z } from 'zod'
+import { useTranslations } from 'next-intl'
 
 const loginSchema = z.object({
-  email: z.string().email('Email invalide'),
-  password: z.string().min(1, 'Mot de passe requis'),
-  tenantSlug: z.string().min(1, 'Tenant requis'),
+  email: z.string().email(),
+  password: z.string().min(1),
+  tenantSlug: z.string().min(1),
 })
 
-type LoginForm = z.infer<typeof loginSchema>
+type LoginFormData = z.infer<typeof loginSchema>
 
 const ROLE_REDIRECT: Record<string, string> = {
   JOUEUR: '/joueur/tableau-de-bord',
@@ -21,8 +22,9 @@ const ROLE_REDIRECT: Record<string, string> = {
 }
 
 export function LoginForm() {
+  const t = useTranslations('auth.connexion')
   const router = useRouter()
-  const [form, setForm] = useState<LoginForm>({ email: '', password: '', tenantSlug: 'dev' })
+  const [form, setForm] = useState<LoginFormData>({ email: '', password: '', tenantSlug: 'dev' })
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -46,18 +48,12 @@ export function LoginForm() {
       })
 
       if (!res?.ok) {
-        if (res?.error === 'ACCOUNT_SUSPENDED') {
-          setError('Votre compte a été suspendu. Contactez le support.')
-        } else {
-          // Message générique — ne révèle pas si l'email existe (AC6)
-          setError('Identifiants incorrects. Vérifiez votre email et mot de passe.')
-        }
+        setError(res?.error === 'ACCOUNT_SUSPENDED' ? t('error_suspended') : t('error_generic'))
         return
       }
 
-      // Récupérer la session pour rediriger selon le rôle (AC2)
-      router.refresh()
-      const session = await getSession()
+      const sessionRes = await fetch('/api/auth/session')
+      const session = await sessionRes.json()
       const role = session?.user?.role as string | undefined
       const redirect = (role && ROLE_REDIRECT[role]) ?? '/'
       router.push(redirect)
@@ -75,9 +71,7 @@ export function LoginForm() {
       )}
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="email" className="text-sm font-medium">
-          Email
-        </label>
+        <label htmlFor="email" className="text-sm font-medium">{t('email')}</label>
         <input
           id="email"
           type="email"
@@ -86,14 +80,12 @@ export function LoginForm() {
           value={form.email}
           onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
           className="rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          placeholder="joueur@example.com"
+          suppressHydrationWarning
         />
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="password" className="text-sm font-medium">
-          Mot de passe
-        </label>
+        <label htmlFor="password" className="text-sm font-medium">{t('password')}</label>
         <input
           id="password"
           type="password"
@@ -102,6 +94,7 @@ export function LoginForm() {
           value={form.password}
           onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
           className="rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          suppressHydrationWarning
         />
       </div>
 
@@ -110,7 +103,7 @@ export function LoginForm() {
         disabled={loading}
         className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
       >
-        {loading ? 'Connexion...' : 'Se connecter'}
+        {loading ? t('loading') : t('submit')}
       </button>
     </form>
   )

@@ -1,0 +1,53 @@
+{
+  "auth": {
+    "connexion": {
+      "title": "Dream Studio Connect",
+      "subtitle": "Connectez-vous à votre espace",
+      "email": "Adresse email",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "loading": "Connexion...",
+      "create_account": "Pas encore de compte ?",
+      "create_link": "Créer un compte",
+      "error_generic": "Identifiants incorrects. Vérifiez votre email et mot de passe.",
+      "error_suspended": "Votre compte a été suspendu. Contactez le support."
+    },
+    "inscription": {
+      "title": "Dream Studio Connect",
+      "subtitle": "Créez votre compte",
+      "name": "Nom complet",
+      "email": "Adresse email",
+      "password": "Mot de passe",
+      "password_hint": "Minimum 8 caractères",
+      "role": "Je suis",
+      "role_joueur": "Joueur (talent)",
+      "role_agent": "Agent (recruteur)",
+      "is_minor": "Je suis mineur(e) de moins de 18 ans",
+      "submit": "Créer mon compte",
+      "loading": "Création du compte...",
+      "has_account": "Déjà un compte ?",
+      "login_link": "Se connecter",
+      "success_title": "Compte créé avec succès !",
+      "success_minor": "Votre profil restera non-public jusqu'à validation du consentement parental par notre équipe.",
+      "success_email": "Un email de confirmation vous a été envoyé à",
+      "success_login": "Se connecter",
+      "consent_title": "Consentement parental requis",
+      "consent_desc": "Votre profil restera non-public tant que le consentement parental n'aura pas été validé. Téléchargez le formulaire, faites-le signer par votre représentant légal, puis envoyez-le à notre équipe.",
+      "consent_pdf": "Télécharger le formulaire PDF",
+      "consent_check": "J'ai pris connaissance du formulaire et mon représentant légal a donné son accord pour la création de ce compte",
+      "country": "Pays",
+      "country_placeholder": "Sélectionnez votre pays...",
+      "consent_pdf_aria": "Télécharger le formulaire de consentement parental (ouvre un nouvel onglet)"
+    }
+  },
+  "preferences": {
+    "language": "Langue",
+    "theme": "Thème",
+    "dark": "Sombre",
+    "light": "Clair",
+    "system": "Système"
+  },
+  "nav": {
+    "logout": "Se déconnecter"
+  }
+}
