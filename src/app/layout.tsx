@@ -33,7 +33,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className="min-h-screen bg-background font-sans antialiased">
+      <body className="min-h-screen bg-background font-sans antialiased" suppressHydrationWarning>
         <ThemeProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
             <SessionProvider>{children}</SessionProvider>

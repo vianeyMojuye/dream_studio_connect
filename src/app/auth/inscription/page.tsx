@@ -11,7 +11,8 @@ export default async function InscriptionPage({ searchParams }: Props) {
   const params = await searchParams
   const t = await getTranslations('auth.inscription')
   const role = params.role === 'AGENT' ? 'AGENT' : 'JOUEUR'
-  const tenantSlug = params.tenantSlug ?? 'dev'
+  // Si aucun tenantSlug n'est fourni, on ne passe pas la prop (ou on la laisse vide)
+  const defaultTenantSlug = params.tenantSlug ?? ''
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
@@ -24,7 +25,7 @@ export default async function InscriptionPage({ searchParams }: Props) {
           <h1 className="text-2xl font-bold tracking-tight">{t('title')}</h1>
           <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
         </div>
-        <RegisterForm defaultRole={role} defaultTenantSlug={tenantSlug} />
+        <RegisterForm defaultRole={role} defaultTenantSlug={defaultTenantSlug} />
       </div>
     </main>
   )

@@ -34,7 +34,13 @@ export function RegisterForm({ defaultRole = 'JOUEUR', defaultTenantSlug = '' }:
       .then((r) => r.json())
       .then((data: Tenant[]) => {
         setTenants(data)
-        if (data.length === 1) setForm((f) => ({ ...f, tenantSlug: data[0]?.slug ?? '' }))
+        setForm((f) => {
+          // Si aucun slug par défaut n'est fourni, on prend le premier tenant de la liste
+          if (!f.tenantSlug && data.length > 0) {
+            return { ...f, tenantSlug: data[0].slug }
+          }
+          return f
+        })
       })
       .catch(() => {})
   }, [])
@@ -113,7 +119,7 @@ export function RegisterForm({ defaultRole = 'JOUEUR', defaultTenantSlug = '' }:
           <option value="" disabled>{t('country_placeholder')}</option>
           {tenants.map((ten) => (
             <option key={ten.slug} value={ten.slug}>
-              {ten.name} ({ten.country})
+              {ten.name} ({ten.slug})
             </option>
           ))}
         </select>

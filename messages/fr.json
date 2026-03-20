@@ -9,6 +9,7 @@
       "loading": "Connexion...",
       "create_account": "Pas encore de compte ?",
       "create_link": "Créer un compte",
+      "forgot_password": "Mot de passe oublié ?",
       "error_generic": "Identifiants incorrects. Vérifiez votre email et mot de passe.",
       "error_suspended": "Votre compte a été suspendu. Contactez le support."
     },
@@ -38,6 +39,31 @@
       "country": "Pays",
       "country_placeholder": "Sélectionnez votre pays...",
       "consent_pdf_aria": "Télécharger le formulaire de consentement parental (ouvre un nouvel onglet)"
+    },
+    "mot_de_passe_oublie": {
+      "title": "Mot de passe oublié",
+      "subtitle": "Entrez votre email pour recevoir un lien de réinitialisation",
+      "email": "Adresse email",
+      "submit": "Envoyer le lien",
+      "loading": "Envoi en cours...",
+      "success": "Si un compte existe avec cet email, vous recevrez un lien de réinitialisation dans quelques minutes.",
+      "back_login": "Retour à la connexion",
+      "error_generic": "Une erreur est survenue. Réessayez."
+    },
+    "reinitialiser_mdp": {
+      "title": "Nouveau mot de passe",
+      "subtitle": "Choisissez un nouveau mot de passe pour votre compte",
+      "password": "Nouveau mot de passe",
+      "password_hint": "Minimum 8 caractères",
+      "confirm": "Confirmer le mot de passe",
+      "submit": "Réinitialiser le mot de passe",
+      "loading": "Réinitialisation...",
+      "success": "Mot de passe réinitialisé avec succès.",
+      "success_login": "Se connecter",
+      "error_invalid": "Lien invalide ou expiré. Demandez un nouveau lien.",
+      "error_mismatch": "Les mots de passe ne correspondent pas.",
+      "error_weak": "Le mot de passe doit contenir au moins 8 caractères.",
+      "error_generic": "Une erreur est survenue. Réessayez."
     }
   },
   "preferences": {

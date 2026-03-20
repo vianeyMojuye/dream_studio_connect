@@ -16,16 +16,17 @@ export async function registerUser(data: RegisterInput): Promise<RegisterResult>
     return { success: false, error: 'Le consentement parental est requis pour les mineurs' }
   }
 
+
   const tenant = await prisma.tenant.findUnique({ where: { slug: tenantSlug } })
+
   if (!tenant) {
     return { success: false, error: 'Tenant introuvable' }
   }
 
-  const existing = await prisma.user.findUnique({
-    where: { email_tenantId: { email, tenantId: tenant.id } },
-  })
+  // Vérifie l'unicité de l'email pour ce tenant
+  const existing = await prisma.user.findUnique({ where: { email_tenantId: { email, tenantId: tenant.id } } })
   if (existing) {
-    return { success: false, error: 'Cette adresse email est déjà utilisée' }
+    return { success: false, error: 'Cette adresse email est déjà utilisée pour ce tenant' }
   }
 
   const passwordHash = await bcrypt.hash(password, 12)
